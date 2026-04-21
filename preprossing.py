@@ -237,15 +237,3 @@ def preprocess():
     return X_train, y_train, X_val, y_val, X_test, y_test, scaler
 
 
-# =============================================================================
-# RUN THIS FILE DIRECTLY TO TEST PREPROCESSING
-# =============================================================================
-
-if __name__ == "__main__":
-    X_train, y_train, X_val, y_val, X_test, y_test, scaler = preprocess()
-
-    print("Sample of X_train (first 3 rows):")
-    print(X_train.head(3))
-
-    print("\nSample of y_train (first 5 values):")
-    print(y_train.head(5))
