@@ -234,6 +234,6 @@ def preprocess():
     print(f"Features used : {X_train.columns.tolist()}")
     print("=============================================\n")
 
-    return X_train, y_train, X_val, y_val, X_test, y_test, scaler
+    return  X_train, y_train, X_test, y_test
 
 

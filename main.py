@@ -1,33 +1,33 @@
-from ucimlrepo import fetch_ucirepo 
-from preprossing import preprocess
-from model import train
-from evulate import evaluate_model
-# fetch dataset 
-metro_interstate_traffic_volume = fetch_ucirepo(id=492) 
+from ucimlrepo import fetch_ucirepo
 
-lineSperator = '-' * 50
-
-# data (as pandas dataframes) 
-X = metro_interstate_traffic_volume.data.features 
-y = metro_interstate_traffic_volume.data.targets 
-  
-# metadata 
-print(metro_interstate_traffic_volume.metadata) 
-print(lineSperator)
-  
-# variable information 
-print(metro_interstate_traffic_volume.variables) 
-print(lineSperator)
-
-# Preprocess
-X_train, y_train, X_val, y_val, X_test, y_test, scaler = preprocess()
-
-# train model
-
-y_pred = train(X_train,y_train,X_test)
-
-#Evaluate results
-evaluate_model(y_pred, X_test, y_test)
+from src.data.eda import run_eda
+from src.data.preprossing import preprocess
+from src.models.run_model import train_models
+from src.evaluation.evaluate import evaluate_models
 
 
-  
+def main():
+
+    print("Loading dataset...")
+    dataset = fetch_ucirepo(id=492)
+
+    X = dataset.data.features
+    y = dataset.data.targets
+
+    # 1. EDA
+    run_eda(X, y)
+
+    # 2. Preprocessing
+    X_train, y_train, X_test, y_test = preprocess()
+
+    # 3. Train multiple models
+    models = train_models(X_train, y_train)
+
+    # 4. Evaluate all models
+    results = evaluate_models(models, X_test, y_test)
+    best_model = max(results.items(), key=lambda x: x[1]["R2"])
+    print("Best Model:", best_model[0])
+
+
+if __name__ == "__main__":
+    main()
