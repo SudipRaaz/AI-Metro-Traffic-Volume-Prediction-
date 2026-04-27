@@ -1,11 +1,10 @@
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import numpy as np
+import matplotlib.pyplot as plt
+from src.data.eda import plot_actual_vs_predicted
 
 
 def evaluate_models(models, X_test, y_test):
-    """
-    Compare multiple models and print metrics
-    """
 
     results = {}
 
@@ -29,4 +28,19 @@ def evaluate_models(models, X_test, y_test):
         print(f"MAE : {mae:.4f}")
         print(f"R2  : {r2:.4f}\n")
 
+        # 🔥 Add plots
+        plot_actual_vs_predicted(y_test, y_pred, model_name=name)
+        error_analysis(y_test, y_pred)
+
     return results
+
+
+def error_analysis(y_test, y_pred):
+    errors = y_test - y_pred
+
+    plt.figure()
+    plt.hist(errors)
+    plt.title("Error Distribution")
+    plt.xlabel("Error")
+    plt.ylabel("Frequency")
+    plt.show()
