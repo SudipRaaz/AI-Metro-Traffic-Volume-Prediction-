@@ -4,9 +4,6 @@ from sklearn.linear_model import LinearRegression
 
 
 def train_models(X_train, y_train):
-    """
-    Train multiple models and return all of them
-    """
 
     models = {
         "Linear Regression": LinearRegression(),
