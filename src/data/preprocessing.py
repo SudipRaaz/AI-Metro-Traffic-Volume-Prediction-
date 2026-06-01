@@ -87,33 +87,24 @@ def scale_data(X_train, X_val, X_test):
 
 
 def preprocess(verbose: bool = True):
-    # Run full preprocessing pipeline
 
-    # Load data
     df = load_data(verbose)
-
-    # Add time-based features
     df = add_time_features(df)
-
-    # Encode categorical variables
     df = encode_features(df)
 
-    # Split data chronologically
     train, val, test = split_time_series(df)
 
-    # Separate features and target
     X_train, y_train = split_X_y(train)
-    X_val, y_val = split_X_y(val)
-    X_test, y_test = split_X_y(test)
+    X_val,   y_val   = split_X_y(val)
+    X_test,  y_test  = split_X_y(test)
 
-    # Scale numerical features
     X_train, X_val, X_test, scaler = scale_data(X_train, X_val, X_test)
 
     if verbose:
         print("\n=== FINAL DATA SHAPES ===")
-        print(f"Train: {X_train.shape}")
-        print(f"Val  : {X_val.shape}")
-        print(f"Test : {X_test.shape}")
+        print(f"Train : {X_train.shape}")
+        print(f"Val   : {X_val.shape}")
+        print(f"Test  : {X_test.shape}")
 
-    # Return only train and test sets for modeling
-    return X_train, y_train, X_test, y_test
+    # ✓ Return all 7 values so all model files work correctly
+    return X_train, y_train, X_val, y_val, X_test, y_test, scaler
